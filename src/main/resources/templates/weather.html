@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+    <style>
+        /* Centering the search bar */
+        body {
+            background-image: url('https://wallpapertag.com/wallpaper/full/b/c/9/566377-widescreen-most-beautiful-wallpapers-of-2018-1920x1200-phone.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-position: center center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .search-box {
+            text-align: center;
+        }
+
+        .search-box input {
+            width: 70%;
+        }
+
+        .search-box button {
+            margin-top: 10px;
+        }
+
+        .forecast-container {
+            text-align: center;
+        }
+
+        .day-forecast {
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin: 10px;
+            border-radius: 5px;
+            width: 18%; /* Set the width to a percentage */
+            display: inline-block; /* Display the boxes inline */
+            background-color: #f0f0f0;
+        }
+    </style>
+</head>
+
+</html>
+    <div class="container">
+        <div class="search-box">
+            <i class="fa-solid fa-location-dot"></i>
+            <input type="text" placeholder="Enter your location" id="location-input">
+            <button class="fa-solid fa-magnifying-glass" onclick="getWeatherForecast()"></button>
+        </div>
+        <div class="not-found" style="display: none;">
+            <img src="images/404.png" alt="Not Found">
+            <p>Oops! Invalid location :/</p>
+        </div>
+        <div class="weather-forecast">
+            <!-- Day-wise weather forecast will be displayed here -->
+        </div>
+    </div>
+    <!-- Add a logout button -->
+    <form action="/logout" method="post">
+        <button type="submit" class="btn btn-primary">Logout</button>
+    </form>
+    
+    <script src="https://kit.fontawesome.com/7c8801c017.js" crossorigin="anonymous"></script>
+    <script>
+        // Function to convert temperature from Kelvin to Celsius
+        function kelvinToCelsius(kelvin) {
+            return kelvin - 273.15;
+        }
+
+        function getWeatherForecast() {
+            const location = document.getElementById('location-input').value;
+            const apiKey = 'c32adebd0ce53008ca58b9c593b081c7';
+            const apiUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${location}&appid=${apiKey}`;
+
+            fetch(apiUrl)
+                .then(response => response.json())
+                .then(data => {
+                    // Clear previous forecast
+                    const weatherForecast = document.querySelector('.weather-forecast');
+                    weatherForecast.innerHTML = '';
+
+                    // Process and display the week-wise forecast
+                    displayWeekWeatherForecast(data);
+                })
+                .catch(error => {
+                    console.error(error);
+                    showErrorMessage();
+                });
+        }
+
+        function displayWeekWeatherForecast(data) {
+            const weatherForecast = document.querySelector('.weather-forecast');
+
+            // Filter the data for the week (you may need to adjust the time filtering)
+            const weekData = data.list.filter(forecast => {
+                // Assuming the time slot is set to 12:00:00 for daily forecasts
+                const forecastDate = new Date(forecast.dt_txt);
+                return forecastDate.getUTCHours() === 12;
+            });
+
+            // Log the weekData to the console to inspect it
+            console.log(weekData);
+
+            // Determine the number of days to display (up to 7)
+            const daysToDisplay = Math.min(7, weekData.length);
+
+            weekData.slice(0, daysToDisplay).forEach(forecast => {
+                // Rest of the code remains the same
+                // ...
+                const date = new Date(forecast.dt * 1000);
+                const dayName = date.toLocaleDateString('en-US', { weekday: 'long' });
+                const temperatureKelvin = forecast.main.temp;
+                const temperatureCelsius = kelvinToCelsius(temperatureKelvin); // Convert Kelvin to Celsius
+                const humidity = forecast.main.humidity;
+                const windSpeed = forecast.wind.speed;
+                const cloudiness = forecast.clouds.all;
+                const description = forecast.weather[0].description;
+                const weatherIconUrl = `http://openweathermap.org/img/wn/${forecast.weather[0].icon}.png`;
+                const openWeatherMapUrl = `https://openweathermap.org/city/${data.city.id}`;
+
+                // Create a div element for the forecast
+                const dayElement = document.createElement('div');
+                dayElement.classList.add('day-forecast');
+
+                // Add data for each property
+                dayElement.innerHTML = `
+                    <p><strong>${dayName}</strong></p>
+                    <img src="${weatherIconUrl}" alt="${description}">
+                    <p>Temperature: ${temperatureCelsius.toFixed(2)}°C</p>
+                    <p>Humidity: ${humidity}%</p>
+                    <p>Wind Speed: ${windSpeed} m/s</p>
+                    <p>Cloudiness: ${cloudiness}%</p>
+                    <p>Description: ${description}</p>
+                    <p><a href="${openWeatherMapUrl}" target="_blank">More Details</a></p>
+                `;
+
+                weatherForecast.appendChild(dayElement);
+            });
+        }
+
+        function showErrorMessage() {
+            const weatherForecast = document.querySelector('.weather-forecast');
+            weatherForecast.innerHTML = '<p>Oops! Invalid location :/</p>';
+        }
+    </script>
+</body>
+</html>

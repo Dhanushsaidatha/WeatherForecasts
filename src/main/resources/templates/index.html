@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Registration and Login System</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+
+<body>
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+		<div class="container-fluid">
+			<a class="navbar-brand" th:href="@{/index}">Weather Forecast</a>
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+				data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+				aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+					<li class="nav-item">
+						<a class="nav-link active" aria-current="page" th:href="@{/register}">Register</a>
+						<a class="nav-link active" aria-current="page" th:href="@{/user}">Admin Login</a>
+					</li>
+					<div class="row">
+		<h1 class="text-center">Weather Forecast Application[API]</h1>
+		
+			
+		</div>
+
+
+				</ul>
+			</div>
+		</div>
+	</nav>
+	<br /><br />
+	<brdiv class="container">
+	  <style>
+        /* Styling for the day forecast boxes */
+        .day-forecast {
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin: 10px;
+            border-radius: 5px;
+            width: 200px;
+            float: left;
+            background-color:  #f8f8ff;
+        }
+         /* Add more styles for better appearance */
+        body {
+       
+            background-image: url('https://freefrontend.com/assets/img/css-weather-widgets/Flat-Weather-Notice-Cards-HTML-CSS.gif'); /* New background image URL */
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-position: center center;
+        }
+
+
+    </style>
+		
+		
+		
+		
+			  <style>
+        /* Styling for the day forecast boxes */
+        .day-forecast {
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin: 10px;
+            border-radius: 5px;
+            width: 200px;
+            float: left;
+            background-color:  #f8f8ff;
+        }
+         /* Add more styles for better appearance */
+        body {
+            background-image: url('https://cdn.dribbble.com/users/456178/screenshots/2350761/media/73d3d8c0e587d8ce610b18ddb1064d1c.png?resize=800x600&vertical=center'); /* New background image URL */
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-position: center center;
+        }
+
+
+    </style>
+		
+		</div>
+</body>
+
+</html>
